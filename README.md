@@ -1,1 +1,1 @@
-# productstock
+# Product Stock Order rules system
