@@ -1,0 +1,92 @@
+package com.vijay.demo.productsors.rules;
+
+import com.vijay.demo.productsors.model.Product;
+import com.vijay.demo.productsors.model.ProductOrder;
+import com.vijay.demo.productsors.model.StockStatus;
+import org.drools.core.base.EnabledBoolean;
+
+global com.vijay.demo.productsors.model.StockCheck stockCheck;
+
+dialect  "mvel"
+
+rule "Order_Rule_Product_a"
+// Product (a) minimum stock level 4
+when
+
+    ProductOrder( product.name == "a" &&
+                    product.stock > 0 &&
+                    product.stock > 4  &&
+                    product.stock > volume &&
+                    volume > 0 &&
+                    product.stock-volume >= 4 )
+
+then
+    stockCheck.setStatus(StockStatus.Allowed)
+end
+
+rule "Order_Rule_Product_b"
+// Product (b) minimum stock level 4
+when
+
+    ProductOrder( product.name == "b" &&
+                    product.stock > 0 &&
+                    product.stock > 4  &&
+                    product.stock > volume &&
+                    volume > 0 &&
+                    product.stock-volume >= 4 )
+
+then
+   stockCheck.setStatus(StockStatus.Allowed)
+end
+
+rule "Order_Rule_Product_c"
+// Product (c) minimum stock level 4
+when
+
+    ProductOrder( product.name == "c" )
+
+then
+    stockCheck.setStatus(StockStatus.Blocked)
+end
+
+rule "Order_Rule_Product_d"
+// Product (d) minimum stock level 8
+when
+
+    ProductOrder( product.name == "d" &&
+                    product.stock > 0 &&
+                    product.stock > 8  &&
+                    product.stock > volume &&
+                    volume > 0 &&
+                    product.stock-volume >= 8 )
+
+then
+    stockCheck.setStatus(StockStatus.Allowed)
+end
+
+rule "Order_Rule_Product_e"
+// Product (e) minimum stock level 4
+when
+
+    ProductOrder( product.name == "e" &&
+                    product.stock > 0 &&
+                    product.stock > 4  &&
+                    product.stock > volume &&
+                    volume > 0 &&
+                    product.stock-volume >= 4 )
+
+then
+    stockCheck.setStatus(StockStatus.Allowed)
+end
+
+rule "Order_Rule_Block_Product_d"
+// Product (d) minimum stock level 8
+when
+
+    ProductOrder( product.name == "d" &&
+                    volume == 1000000 )
+
+then
+    stockCheck.setStatus(StockStatus.Blocked)
+    drools.getRule().setEnabled(new EnabledBoolean(false))
+end
